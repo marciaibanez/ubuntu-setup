@@ -31,6 +31,9 @@ apt install \
      make \
      zsh
 
+echo "auto-remove"
+apt autoremove
+
 echo "installing snap apps"
 snap install spotify
 snap install discord
