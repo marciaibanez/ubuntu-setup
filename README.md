@@ -1,5 +1,5 @@
 # ubuntu-setup
 
 ```sh
-$ curl https://raw.githubusercontent.com/marciaibanez/ubuntu-setup/master/setup.sh | bash
+$ curl https://raw.githubusercontent.com/marciaibanez/ubuntu-setup/master/setup.sh | sudo sh
 ```
