@@ -1,6 +1,5 @@
 #!/bin/sh
 apt update
-
 apt upgrade
 
 echo "installing apt packages"
@@ -53,6 +52,7 @@ echo "installing docker"
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 rm get-docker.sh
+usermod -aG docker marciaibanez
 
 echo "installing node"
 curl -sL https://deb.nodesource.com/setup_12.x | bash
@@ -60,3 +60,7 @@ apt install nodejs
 
 echo "installing zsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+echo "installing docker compose"
+curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
