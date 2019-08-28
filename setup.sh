@@ -41,6 +41,7 @@ snap install telegram-desktop
 snap install code --classic
 snap install android-studio --classic
 snap install slack --classic
+snap install whatsdesk
 
 echo "installing Chrome"
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
