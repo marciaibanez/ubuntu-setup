@@ -33,7 +33,7 @@ apt install -y \
      zsh
 
 echo "auto-remove"
-apt autoremove
+apt autoremove -y
 apt autoclean
 
 echo "Installing snap apps"
