@@ -2,7 +2,7 @@
 set -e
 export DEBIAN_FRONTEND=noninteractive
 
-apt update && apt upgrade -y
+apt update && apt full-upgrade -y
 
 echo "Installing apt packages"
 apt-get install chrome-gnome-shell \
