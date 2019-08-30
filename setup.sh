@@ -1,4 +1,6 @@
 #!/bin/sh
+export DEBIAN_FRONTEND=noninteractive
+
 apt update && apt upgrade -y
 
 echo "installing apt packages"
