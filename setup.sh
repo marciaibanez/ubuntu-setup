@@ -3,7 +3,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 apt update && apt upgrade -y
 
-echo "installing apt packages"
+echo "Installing apt packages"
 apt install -y \
      git \
      vim \
@@ -34,8 +34,9 @@ apt install -y \
 
 echo "auto-remove"
 apt autoremove
+apt autoclean
 
-echo "installing snap apps"
+echo "Installing snap apps"
 snap install spotify
 snap install discord
 snap install telegram-desktop
@@ -44,7 +45,7 @@ snap install android-studio --classic
 snap install slack --classic
 snap install whatsdesk
 
-echo "installing Chrome"
+echo "Installing Chrome"
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 dpkg -i google-chrome-stable_current_amd64.deb
 rm google-chrome-stable_current_amd64.deb
@@ -53,20 +54,20 @@ echo "git config"
 git config --global user.email "marcia.ibanez.1@gmail.com"
 git config --global user.name "Marcia Ibanez"
 
-echo "installing Docker"
+echo "Installing Docker"
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 rm get-docker.sh
 usermod -aG docker marciaibanez
 
-echo "installing Node"
+echo "Installing Node"
 curl -sL https://deb.nodesource.com/setup_12.x | bash
 apt install nodejs
 
-echo "installing zsh"
+echo "Installing zsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
-echo "installing Docker Compose"
+echo "Installing Docker Compose"
 curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
