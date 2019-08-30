@@ -5,6 +5,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt update && apt upgrade -y
 
 echo "Installing apt packages"
+apt-get install chrome-gnome-shell \
 apt install -y \
      git \
      vim \
