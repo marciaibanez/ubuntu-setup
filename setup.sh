@@ -1,9 +1,8 @@
 #!/bin/sh
-apt update
-apt upgrade
+apt update && apt upgrade -y
 
 echo "installing apt packages"
-apt install \
+apt install -y \
      git \
      vim \
      fonts-firacode \
