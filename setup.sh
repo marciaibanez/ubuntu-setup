@@ -112,99 +112,8 @@ install_steam() {
   sudo apt install -y steam
 }
 
-install_neovim() {
-  sudo add-apt-repository ppa:neovim-ppa/stable
-  sudo apt install -y neovim
-}
-
-configure_zsh() {
-  step "Adding zsh config"
-  if [ ! -d ~/projects/verzola/zshrc ]; then
-    git clone https://github.com/verzola/.zshrc.git ~/projects/verzola/zshrc
-  else
-    git -C ~/projects/verzola/zshrc pull origin master
-  fi
-  check
-
-  step "Linking zshrc"
-  rm ~/.zshrc
-  ln -s ~/projects/verzola/zshrc/.zshrc ~/.zshrc
-  check
-}
-
-configure_tmux() {
-  step "Installing Tmux Plugin Manager"
-  if [ ! -d ~/.tmux/plugins/tpm ]; then
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-  else
-    git -C ~/.tmux/plugins/tpm pull origin master
-  fi
-  check
-
-  step "Fetching tmux config"
-  if [ ! -d ~/projects/verzola/tmux.conf ]; then
-    git clone https://github.com/verzola/.tmux.conf.git ~/projects/verzola/tmux.conf
-  else
-    git -C ~/projects/verzola/tmux.conf pull origin master
-  fi
-  check
-
-  step "Linking tmux config"
-  if [ ! -f ~/.tmux.conf ]; then
-    ln -s ~/projects/verzola/tmux.conf/.tmux.conf ~/.tmux.conf
-  fi
-  check
-
-  step "Installing tmux plugins"
-  ~/.tmux/plugins/tpm/scripts/install_plugins.sh
-  check
-}
-
-configure_vim() {
-  step "Installing vim-plug"
-  if [ ! -f ~/.local/share/nvim/site/autoload/plug.vim ]; then
-    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  fi
-  check
-
-  if [ ! -d ~/projects/verzola/vimrc ]; then
-    step "Fetching vim config"
-    git clone https://github.com/verzola/.vimrc.git ~/projects/verzola/vimrc
-  else
-    step "Updating vim config"
-    git -C ~/projects/verzola/vimrc pull origin master
-  fi
-  check
-
-  step "Linking vim config"
-  if [ ! -L ~/.vimrc ]; then
-    ln -s ~/projects/verzola/vimrc/.vimrc ~/.vimrc
-  fi
-
-  if [ ! -L ~/.config/nvim/init.vim ]; then
-    mkdir -p ~/.config/nvim
-    ln -s ~/projects/verzola/vimrc/.vimrc ~/.config/nvim/init.vim
-  fi
-  check
-
-  step "Installing vim plugins"
-  vim +PlugInstall +qall
-  check
-}
-
-configure_aliases() {
-  step "Fetching aliases"
-  if [ ! -d ~/projects/verzola/aliases ]; then
-    git clone https://github.com/verzola/aliases.git ~/projects/verzola/aliases
-  else
-    git -C ~/projects/verzola/aliases pull origin master
-  fi
-  check
-}
-
 setup() {
-  echo "\n Verzola's Ubuntu 20.04 Setup"
+  echo "\n Marcia's Ubuntu 21.04 Setup"
 
   step "Updating system"
   sudo apt update && sudo apt full-upgrade -y
@@ -219,10 +128,8 @@ setup() {
     software-properties-common \
     git \
     zsh \
-    tmux \
     curl \
     htop \
-    openssh-server \
     build-essential
   check
 
@@ -236,27 +143,20 @@ setup() {
   install_nodejs
   install_stacer
   install_steam
-  install_neovim
 
   step "Configure date to use Local Time"
   sudo timedatectl set-local-rtc 1 --adjust-system-clock
   check
 
   step "Configuring Git"
-  git config --global user.name "Gustavo Verzola"
-  git config --global user.email "verzola@gmail.com"
-  git config --global credential.helper 'cache --timeout=999999999999'
+  git config --global user.name "Marcia Ibanez"
+  git config --global user.email "marcia.ibanez.1@gmail.com"
   git config --global tag.sort -version:refname
   check
 
   step "Creating projects folder"
-  mkdir -p ~/projects/verzola/
+  mkdir -p ~/projects
   check
-
-  configure_zsh
-  configure_tmux
-  configure_vim
-  configure_aliases
 
   echo "\nFinished!"
 }
