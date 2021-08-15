@@ -112,6 +112,24 @@ install_steam() {
   sudo apt install -y steam
 }
 
+install_telegram() {
+  sudo add-apt-repository ppa:atareao/telegram
+  sudo apt-get install -y telegram
+}
+
+install_spotify() {
+  curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add - 
+  echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+  sudo apt-get update && sudo apt-get install -y spotify-client
+}
+
+install_discord() {
+  wget "https://discordapp.com/api/download?platform=linux&format=deb" -O discord.deb
+  sudo dpkg -i discord.deb
+  sudo apt install -f
+  sudo rm discord.deb
+}
+
 setup() {
   echo "\n Marcia's Ubuntu 21.04 Setup"
 
@@ -143,6 +161,9 @@ setup() {
   install_nodejs
   install_stacer
   install_steam
+  install_telegram
+  install_spotify
+  install_discord
 
   step "Configure date to use Local Time"
   sudo timedatectl set-local-rtc 1 --adjust-system-clock
