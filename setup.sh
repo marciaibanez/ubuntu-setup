@@ -146,6 +146,11 @@ install_gcloud_sdk() {
   sudo apt-get update && sudo apt-get install google-cloud-sdk
 }
 
+install_firacode() {
+  sudo apt update && \
+sudo apt install fonts-firacode
+}
+
 setup() {
   echo "\n Marcia's Ubuntu 21.04 Setup"
 
