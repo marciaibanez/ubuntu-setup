@@ -186,7 +186,8 @@ setup() {
   install_spotify
   install_discord
   install_vscode
-   install_gcloud_sdk
+  install_gcloud_sdk
+  install_firacode
 
   step "Configure date to use Local Time"
   sudo timedatectl set-local-rtc 1 --adjust-system-clock
