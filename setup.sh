@@ -151,6 +151,10 @@ install_firacode() {
 sudo apt install fonts-firacode
 }
 
+configure_zsh() {
+  chsh -s $(which zsh)
+}
+
 setup() {
   echo "\n Marcia's Ubuntu 21.04 Setup"
 
@@ -188,6 +192,8 @@ setup() {
   install_vscode
   install_gcloud_sdk
   install_firacode
+  
+  configure_zsh
 
   step "Configure date to use Local Time"
   sudo timedatectl set-local-rtc 1 --adjust-system-clock
