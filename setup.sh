@@ -174,20 +174,30 @@ install_firacode() {
 }
 
 configure_zsh() {
+  step "Configuring ZSH"
   chsh -s $(which zsh)
+
+  if [ -f "$HOME/.zshrc" ]; then
+    warning ".zshrc already exists, skipping installation"
+  else
+    cp "$(dirname "$0")/.zshrc" "$HOME/.zshrc"
+    check
+  fi
 }
 
-setup() {
-  echo "\n Marcia's Ubuntu 24.04 Setup"
-
+update_system() {
   step "Updating system"
   sudo apt update && sudo apt full-upgrade -y
   check
+}
 
+remove_apt_packages() {
   step "Removing APT packages"
   sudo apt purge -y apport
   check
+}
 
+install_apt_packages() {
   step "Installing APT packages"
   sudo apt install -y \
     software-properties-common \
@@ -197,10 +207,41 @@ setup() {
     htop \
     build-essential
   check
+}
 
+clean_apt_packages() {
   step "Cleaning APT packages"
   sudo apt autoremove -y
   check
+}
+
+configure_local_time() {
+  step "Configure date to use Local Time"
+  sudo timedatectl set-local-rtc 1 --adjust-system-clock
+  check
+}
+
+configure_git() {
+  step "Configuring Git"
+  git config --global user.name "Marcia Ibanez"
+  git config --global user.email "marcia.ibanez.1@gmail.com"
+  git config --global tag.sort -version:refname
+  check
+}
+
+create_projects_folder() {
+  step "Creating projects folder"
+  mkdir -p ~/projects
+  check
+}
+
+setup() {
+  echo "\n Marcia's Ubuntu 24.04 Setup"
+
+  update_system
+  remove_apt_packages
+  install_apt_packages
+  clean_apt_packages
 
   install_chrome
   install_docker
@@ -214,20 +255,9 @@ setup() {
   install_firacode
   
   configure_zsh
-
-  step "Configure date to use Local Time"
-  sudo timedatectl set-local-rtc 1 --adjust-system-clock
-  check
-
-  step "Configuring Git"
-  git config --global user.name "Marcia Ibanez"
-  git config --global user.email "marcia.ibanez.1@gmail.com"
-  git config --global tag.sort -version:refname
-  check
-
-  step "Creating projects folder"
-  mkdir -p ~/projects
-  check
+  configure_local_time
+  configure_git
+  create_projects_folder
 
   echo "\nFinished!"
 }
