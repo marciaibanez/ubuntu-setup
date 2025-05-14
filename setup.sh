@@ -70,7 +70,7 @@ install_nodejs() {
   if exists node; then
     warning "NodeJS is already installed, skipping install"
   else
-    curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+    curl -sL https://deb.nodesource.com/setup_22.x | sudo -E bash -
     sudo apt install -y nodejs
     node --version
   fi
@@ -91,50 +91,86 @@ install_stacer() {
 }
 
 install_steam() {
-  sudo dpkg --add-architecture i386
-  sudo add-apt-repository multiverse
-  sudo apt full-upgrade
-  sudo apt install -y steam
+  step "Installing Steam"
+
+  if exists steam; then
+    warning "Steam is already installed, skipping install"
+  else
+    sudo apt install -y steam
+  fi
+
+  check
 }
 
 install_telegram() {
-  sudo add-apt-repository ppa:atareao/telegram
-  sudo apt-get install -y telegram
+  step "Installing Telegram"
+
+  if exists telegram-desktop; then
+    warning "Telegram is already installed, skipping install"
+  else
+    sudo snap install telegram-desktop
+  fi
+
+  check
 }
 
 install_spotify() {
-  curl -sS https://download.spotify.com/debian/pubkey_0D811D58.gpg | sudo apt-key add - 
-  echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
-  sudo apt-get update && sudo apt-get install -y spotify-client
+  step "Installing Spotify"
+
+  if exists spotify; then
+    warning "Spotify is already installed, skipping install"
+  else
+    curl -sS https://download.spotify.com/debian/pubkey_C85668DF69375001.gpg | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg
+    echo "deb https://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+    sudo apt-get update && sudo apt-get install -y spotify-client
+  fi
+
+  check
 }
 
 install_discord() {
-  wget "https://discordapp.com/api/download?platform=linux&format=deb" -O discord.deb
-  sudo dpkg -i discord.deb
-  sudo apt install -f
-  sudo rm discord.deb
+  step "Installing Discord"
+
+  if exists discord; then
+    warning "Discord is already installed, skipping install"
+  else
+    wget "https://discordapp.com/api/download?platform=linux&format=deb" -O discord.deb
+    sudo dpkg -i discord.deb
+    sudo apt install -f
+    sudo rm discord.deb
+  fi
+
+  check
 }
 
 install_vscode() {
-  wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-  sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
-  sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-  rm -f packages.microsoft.gpg
-  sudo apt install -y apt-transport-https
-  sudo apt update
-  sudo apt install -y code
-}
+  step "Installing Visual Studio Code"
 
-install_gcloud_sdk() {
-  echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-  sudo apt install -y apt-transport-https ca-certificates gnupg
-  curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
-  sudo apt-get update && sudo apt-get install google-cloud-sdk
+  if exists code; then
+    warning "Visual Studio Code is already installed, skipping install"
+  else
+    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+    sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
+    sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+    rm -f packages.microsoft.gpg
+    sudo apt install -y apt-transport-https
+    sudo apt update
+    sudo apt install -y code
+  fi
+
+  check
 }
 
 install_firacode() {
-  sudo apt update && \
-sudo apt install fonts-firacode
+  step "Installing Fira Code Font"
+
+  if fc-list | grep -qi "Fira Code"; then
+    warning "Fira Code Font is already installed, skipping install"
+  else
+    sudo apt update && sudo apt install -y fonts-firacode
+  fi
+
+  check
 }
 
 configure_zsh() {
@@ -175,7 +211,6 @@ setup() {
   install_spotify
   install_discord
   install_vscode
-  install_gcloud_sdk
   install_firacode
   
   configure_zsh
