@@ -64,20 +64,6 @@ install_docker() {
   check
 }
 
-install_docker_compose() {
-  step "Installing Docker Compose"
-
-  if exists docker-compose; then
-    warning "Docker-compose is already installed, skipping install"
-  else
-    sudo curl -L "https://github.com/docker/compose/releases/download/$(get_latest_release docker/compose)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    sudo chmod +x /usr/local/bin/docker-compose
-    docker-compose --version
-  fi
-
-  check
-}
-
 install_nodejs() {
   step "Installing NodeJS"
 
@@ -156,7 +142,7 @@ configure_zsh() {
 }
 
 setup() {
-  echo "\n Marcia's Ubuntu 21.04 Setup"
+  echo "\n Marcia's Ubuntu 24.04 Setup"
 
   step "Updating system"
   sudo apt update && sudo apt full-upgrade -y
@@ -182,7 +168,6 @@ setup() {
 
   install_chrome
   install_docker
-  install_docker_compose
   install_nodejs
   install_stacer
   install_steam
