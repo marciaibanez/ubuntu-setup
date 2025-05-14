@@ -180,7 +180,7 @@ configure_zsh() {
   if [ -f "$HOME/.zshrc" ]; then
     warning ".zshrc already exists, skipping installation"
   else
-    cp "$(dirname "$0")/.zshrc" "$HOME/.zshrc"
+    ln -s "$(dirname "$0")/.zshrc" "$HOME/.zshrc"
     check
   fi
 }
