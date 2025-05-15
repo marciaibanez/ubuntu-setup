@@ -97,6 +97,8 @@ install_steam() {
     warning "Steam is already installed, skipping install"
   else
     sudo apt install -y steam
+    cp /usr/share/applications/steam.desktop ~/.local/share/applications/
+    sed -i '/PrefersNonDefaultGPU=true/d; /X-KDE-RunOnDiscreteGpu=true/d' ~/.local/share/applications/steam.desktop
   fi
 
   check
